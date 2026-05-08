@@ -34,3 +34,15 @@ def decrypt_des(encrypted_data, des_key):
     decrypted = unpad(cipher.decrypt(ciphertext), DES.block_size)
     return decrypted.decode("utf-8")
 
+public_key_pem = mySocket.recv(4096)
+public_key = RSA.import_key(public_key_pem)
+
+des_key = get_random_bytes(8)
+
+rsa_cipher = PKCS1_OAEP.new(public_key)
+encrypted_des_key = rsa_cipher.encrypt(des_key)
+
+mySocket.send(encrypted_des_key)
+
+print("DES key u krijua dhe u dergua i enkriptuar te serveri.")
+
