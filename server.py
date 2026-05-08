@@ -38,6 +38,35 @@ def decrypt_des(encrypted_data, des_key):
     decrypted = unpad(cipher.decrypt(ciphertext), DES.block_size)
     return decrypted.decode("utf-8")
 
+def process_command(client_name, role, command):
+    parts = command.strip().split(" ", 2)
+
+    if not parts or parts[0] == "":
+        return "Komande e zbrazet."
+
+    main_command = parts[0].upper()
+
+    if main_command == "LIST":
+        files = os.listdir(SERVER_FOLDER)
+        return "File ne server:\n" + "\n".join(files) if files else "Folderi bosh."
+
+    elif main_command == "READ":
+        if len(parts) < 2:
+            return "Perdorimi: READ emri_file.txt"
+
+        filename = parts[1]
+        filepath = os.path.join(SERVER_FOLDER, filename)
+
+        if not os.path.exists(filepath):
+            return "File nuk ekziston."
+
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                content = f.read()
+            return "Permbajtja e file-it '{}':\n{}".format(filename, content)
+        except Exception as e:
+            return "Gabim gjate leximit: {}".format(str(e))
+
 //pjesa e dyte e serverside
 //komanda excecute
 elif main_command == "EXEC":
