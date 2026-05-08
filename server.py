@@ -66,6 +66,25 @@ def process_command(client_name, role, command):
             return "Permbajtja e file-it '{}':\n{}".format(filename, content)
         except Exception as e:
             return "Gabim gjate leximit: {}".format(str(e))
+    elif main_command == "WRITE":
+        if role != "admin":
+            return "Nuk keni privilegje."
+
+        if len(parts) < 3:
+            return "Perdor: WRITE file.txt tekst"
+
+        filename = parts[1]
+        text = parts[2]
+        filepath = os.path.join(SERVER_FOLDER, filename)
+
+        try:
+            with open(filepath, "a", encoding="utf-8") as f:
+                f.write(text + "\n")
+            return "Shkrimi u krye."
+        except Exception as e:
+            return "Gabim: {}".format(str(e))
+        
+        
 
 //pjesa e dyte e serverside
 //komanda excecute
