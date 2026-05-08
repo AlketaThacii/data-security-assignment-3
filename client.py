@@ -25,3 +25,12 @@ except:
     cipher = DES.new(des_key, DES.MODE_CBC, iv)
     encrypted = cipher.encrypt(pad(message.encode("utf-8"), DES.block_size))
     return base64.b64encode(iv + encrypted)
+
+def decrypt_des(encrypted_data, des_key):
+    raw_data = base64.b64decode(encrypted_data)
+    iv = raw_data[:8]
+    ciphertext = raw_data[8:]
+    cipher = DES.new(des_key, DES.MODE_CBC, iv)
+    decrypted = unpad(cipher.decrypt(ciphertext), DES.block_size)
+    return decrypted.decode("utf-8")
+
