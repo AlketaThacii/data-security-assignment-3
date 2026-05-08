@@ -19,3 +19,9 @@ try:
 except:
     print("Nuk mund te lidhet me serverin")
     exit()
+
+    def encrypt_des(message, des_key):
+    iv = get_random_bytes(8)
+    cipher = DES.new(des_key, DES.MODE_CBC, iv)
+    encrypted = cipher.encrypt(pad(message.encode("utf-8"), DES.block_size))
+    return base64.b64encode(iv + encrypted)
