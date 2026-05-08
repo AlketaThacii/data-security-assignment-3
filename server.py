@@ -78,3 +78,24 @@ def handle_client(client, addr):
                 break
 
             client.send(encrypt_des(response, des_key))
+            
+    except Exception as e:
+        print("Gabim me klientin:", e)
+
+    finally:
+        client.close()
+        print(f"Lidhja u mbyll {addr}")
+
+
+mySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+print("Socketi eshte gjeneruar")
+
+mySocket.bind((hostname, portno))
+print("Socketi eshte i lidhur me IP Addressen {} dhe portin {}".format(hostname, portno))
+
+mySocket.listen(5)
+print("Serveri eshte ne pritje te perdoruesve...")
+
+while True:
+    client, addr = mySocket.accept()
+    threading.Thread(target=handle_client, args=(client, addr)).start()
