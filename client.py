@@ -52,3 +52,14 @@ admin_key = input("Shkruaj admin key ose Enter: ")
 login_data = client_name + "|" + admin_key
 
 mySocket.send(encrypt_des(login_data, des_key))
+
+encrypted_response = mySocket.recv(4096)
+msg_in = decrypt_des(encrypted_response, des_key)
+
+print("\nPergjigja nga serveri:")
+print(msg_in)
+
+if "roli: admin" in msg_in.lower():
+    role = "admin"
+else:
+    role = "read-only"
