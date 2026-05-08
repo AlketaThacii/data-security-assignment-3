@@ -27,3 +27,8 @@ elif main_command == "EXEC":
             return result.stdout + result.stderr
         except Exception as e:
             return "Gabim gjate ekzekutimit: {}".format(str(e))
+    elif main_command == "EXIT":
+        return "DISCONNECT"
+
+    else:
+        return "Komande e panjohur."
