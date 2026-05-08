@@ -4,6 +4,11 @@ import subprocess
 import threading
 import base64
 
+from Crypto.Cipher import DES
+from Crypto.Util.Padding import pad, unpad
+from Crypto.Random import get_random_bytes
+
+
 hostname = "192.168.0.104"
 portno = 8080
 
@@ -18,6 +23,16 @@ rsa_key = RSA.generate(2048)
 private_key = rsa_key
 public_key = rsa_key.publickey()
 
+
+from Crypto.Cipher import DES
+from Crypto.Util.Padding import pad, unpad
+from Crypto.Random import get_random_bytes
+
+def encrypt_des(message, des_key):
+    iv = get_random_bytes(8)
+    cipher = DES.new(des_key, DES.MODE_CBC, iv)
+    encrypted = cipher.encrypt(pad(message.encode("utf-8"), DES.block_size))
+    return base64.b64encode(iv + encrypted)
 
 //pjesa e dyte e serverside
 //komanda excecute
