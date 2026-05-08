@@ -9,7 +9,7 @@ from Crypto.Random import get_random_bytes
 hostname = " "
 portno = 0000
 
-  def encrypt_des(message, des_key):
+def encrypt_des(message, des_key):
     iv = get_random_bytes(8)
     cipher = DES.new(des_key, DES.MODE_CBC, iv)
     encrypted = cipher.encrypt(pad(message.encode("utf-8"), DES.block_size))
