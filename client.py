@@ -91,4 +91,7 @@ while True:
     if msg.strip().upper() == "EXIT":
         break
 
+    mySocket.close()
+    print("Lidhja u mbyll me sukses")
+
 
