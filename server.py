@@ -1,5 +1,15 @@
-//pjesa e pare..
+import socket
+import os
+import subprocess
+import threading
+import base64
 
+hostname = "192.168.0.104"
+portno = 8080
+
+SERVER_FOLDER = "server_files"
+if not os.path.exists(SERVER_FOLDER):
+    os.makedirs(SERVER_FOLDER)
 
 
 //pjesa e dyte e serverside
