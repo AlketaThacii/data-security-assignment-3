@@ -47,3 +47,17 @@ def handle_client(client, addr):
 
         rsa_cipher = PKCS1_OAEP.new(private_key)
         des_key = rsa_cipher.decrypt(encrypted_des_key)
+        
+        print("DES key u pranua dhe u dekriptua me sukses.")
+
+        #Prano login data te enkriptuar me DES-CBC
+        encrypted_login = client.recv(4096)
+        login_data = decrypt_des(encrypted_login, des_key).strip()
+
+        if "|" in login_data:
+            client_name, secret_key = login_data.split("|", 1)
+        else:
+            client_name = login_data
+            secret_key = ""
+
+        role = "admin" if secret_key == ADMIN_KEY else "read-only"
