@@ -24,15 +24,19 @@ private_key = rsa_key
 public_key = rsa_key.publickey()
 
 
-from Crypto.Cipher import DES
-from Crypto.Util.Padding import pad, unpad
-from Crypto.Random import get_random_bytes
-
 def encrypt_des(message, des_key):
     iv = get_random_bytes(8)
     cipher = DES.new(des_key, DES.MODE_CBC, iv)
     encrypted = cipher.encrypt(pad(message.encode("utf-8"), DES.block_size))
     return base64.b64encode(iv + encrypted)
+
+def decrypt_des(encrypted_data, des_key):
+    raw_data = base64.b64decode(encrypted_data)
+    iv = raw_data[:8]
+    ciphertext = raw_data[8:]
+    cipher = DES.new(des_key, DES.MODE_CBC, iv)
+    decrypted = unpad(cipher.decrypt(ciphertext), DES.block_size)
+    return decrypted.decode("utf-8")
 
 //pjesa e dyte e serverside
 //komanda excecute
