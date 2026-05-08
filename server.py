@@ -32,3 +32,18 @@ elif main_command == "EXEC":
 
     else:
         return "Komande e panjohur."
+
+
+def handle_client(client, addr):
+    print(f"Lidhje nga {addr}")
+
+    try:
+        #Serveri ia dergon klientit public key
+        public_key_pem = public_key.export_key()
+        client.send(public_key_pem)
+
+        #Serveri pranon DES key te enkriptuar me RSA public key
+        encrypted_des_key = client.recv(4096)
+
+        rsa_cipher = PKCS1_OAEP.new(private_key)
+        des_key = rsa_cipher.decrypt(encrypted_des_key)
