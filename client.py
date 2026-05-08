@@ -65,5 +65,30 @@ if "roli: admin" in msg_in.lower():
 else:
     role = "read-only"
 
+while True:
+    print("\nKomandat e lejuara:")
+
+    if role == "admin":
+        print("LIST | READ | WRITE | EXEC | EXIT")
+    else:
+        print("LIST | READ | EXIT")
+
+    msg = input(">> ")
+
+    if role != "admin":
+        if msg.upper().startswith("WRITE") or msg.upper().startswith("EXEC"):
+            print("Nuk ke privilegje!")
+            continue
+
+    mySocket.send(encrypt_des(msg, des_key))
+
+    encrypted_response = mySocket.recv(4096)
+    response = decrypt_des(encrypted_response, des_key)
+
+    print("\nPergjigja nga serveri:")
+    print(response)
+
+    if msg.strip().upper() == "EXIT":
+        break
 
 
