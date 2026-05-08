@@ -61,3 +61,20 @@ def handle_client(client, addr):
             secret_key = ""
 
         role = "admin" if secret_key == ADMIN_KEY else "read-only"
+        
+        #Komunikimi vazhdon i enkriptuar
+        while True:
+            encrypted_msg = client.recv(4096)
+
+            if not encrypted_msg:
+                break
+
+            msg = decrypt_des(encrypted_msg, des_key)
+            print(f"[NOTIFIKIM] Klienti '{client_name}' me rolin '{role}' kerkoi komanden: {msg}")
+            response = process_command(client_name, role, msg)
+
+            if response == "DISCONNECT":
+                client.send(encrypt_des("Po mbyllet lidhja", des_key))
+                break
+
+            client.send(encrypt_des(response, des_key))
