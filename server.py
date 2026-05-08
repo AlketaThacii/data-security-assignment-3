@@ -10,6 +10,13 @@ portno = 8080
 SERVER_FOLDER = "server_files"
 if not os.path.exists(SERVER_FOLDER):
     os.makedirs(SERVER_FOLDER)
+from Crypto.PublicKey import RSA
+
+ADMIN_KEY = "NETWORKADMIN2026"
+
+rsa_key = RSA.generate(2048)
+private_key = rsa_key
+public_key = rsa_key.publickey()
 
 
 //pjesa e dyte e serverside
