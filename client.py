@@ -46,3 +46,9 @@ mySocket.send(encrypted_des_key)
 
 print("DES key u krijua dhe u dergua i enkriptuar te serveri.")
 
+client_name = input("Shkruaje emrin e klientit: ")
+admin_key = input("Shkruaj admin key ose Enter: ")
+
+login_data = client_name + "|" + admin_key
+
+mySocket.send(encrypt_des(login_data, des_key))
