@@ -9,8 +9,8 @@ from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
 
 
-hostname = "192.168.0.104"
-portno = 8080
+hostname = " "
+portno = 0000
 
 SERVER_FOLDER = "server_files"
 if not os.path.exists(SERVER_FOLDER):
@@ -86,9 +86,9 @@ def process_command(client_name, role, command):
         
         
 
-//pjesa e dyte e serverside
-//komanda excecute
-elif main_command == "EXEC":
+#pjesa e dyte e serverside
+#komanda excecute
+    elif main_command == "EXEC":
         if role != "admin":
             return "Nuk keni privilegje."
 
