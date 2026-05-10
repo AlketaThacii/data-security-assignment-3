@@ -4,7 +4,8 @@ import subprocess
 import threading
 import base64
 
-from Crypto.Cipher import DES
+from Crypto.Cipher import DES, PKCS1_OAEP
+from Crypto.PublicKey import RSA
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
 
@@ -15,7 +16,6 @@ portno = 0000
 SERVER_FOLDER = "server_files"
 if not os.path.exists(SERVER_FOLDER):
     os.makedirs(SERVER_FOLDER)
-from Crypto.PublicKey import RSA
 
 ADMIN_KEY = "NETWORKADMIN2026"
 
@@ -38,7 +38,7 @@ def decrypt_des(encrypted_data, des_key):
     decrypted = unpad(cipher.decrypt(ciphertext), DES.block_size)
     return decrypted.decode("utf-8")
 
-def process_command(client_name, role, command):
+def process_command(role, command):
     parts = command.strip().split(" ", 2)
 
     if not parts or parts[0] == "":
@@ -145,6 +145,8 @@ def handle_client(client, addr):
             secret_key = ""
 
         role = "admin" if secret_key == ADMIN_KEY else "read-only"
+
+        print(f"{client_name} u lidh si {role}")
         
         #Komunikimi vazhdon i enkriptuar
         while True:
@@ -155,7 +157,7 @@ def handle_client(client, addr):
 
             msg = decrypt_des(encrypted_msg, des_key)
             print(f"[NOTIFIKIM] Klienti '{client_name}' me rolin '{role}' kerkoi komanden: {msg}")
-            response = process_command(client_name, role, msg)
+            response = process_command(role, msg)
 
             if response == "DISCONNECT":
                 client.send(encrypt_des("Po mbyllet lidhja", des_key))

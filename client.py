@@ -49,22 +49,12 @@ print("DES key u krijua dhe u dergua i enkriptuar te serveri.")
 
 client_name = input("Shkruaje emrin e klientit: ")
 admin_key = input("Shkruaj admin key ose Enter: ")
+role = "admin" if admin_key == "NETWORKADMIN2026" else "read-only"
 
-login_data = client_name + "|" + admin_key
+login = f"{client_name}|{admin_key}"
+mySocket.send(encrypt_des(login, des_key))
 
-mySocket.send(encrypt_des(login_data, des_key))
-
-encrypted_response = mySocket.recv(4096)
-msg_in = decrypt_des(encrypted_response, des_key)
-
-print("\nPergjigja nga serveri:")
-print(msg_in)
-
-if "roli: admin" in msg_in.lower():
-    role = "admin"
-else:
-    role = "read-only"
-
+print("U lidh me serverin")
 while True:
     print("\nKomandat e lejuara:")
 
@@ -91,7 +81,7 @@ while True:
     if msg.strip().upper() == "EXIT":
         break
 
-    mySocket.close()
-    print("Lidhja u mbyll me sukses")
+mySocket.close()
+print("Lidhja u mbyll me sukses")
 
 
