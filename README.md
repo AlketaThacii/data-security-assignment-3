@@ -30,6 +30,8 @@ WRITE- Shkruan tekst ne nje file.
 EXEC (vetem admin) - Ekzekuton nje Python file ne server.
 EXIT - Mbyll lidhjen me serverin.
 
+---
+
 ## Menyra e funksionimit te RSA & DES bashke
 
 Ky projekt perdor kombinimin e RSA dhe DES per te realizuar komunikim te sigurt klient-server.
