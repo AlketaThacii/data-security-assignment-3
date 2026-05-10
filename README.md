@@ -29,3 +29,24 @@ READ - Lexon permbajtjen e nje file-i.
 WRITE- Shkruan tekst ne nje file.
 EXEC (vetem admin) - Ekzekuton nje Python file ne server.
 EXIT - Mbyll lidhjen me serverin.
+
+## Menyra e funksionimit te RSA & DES bashke
+
+Ky projekt perdor kombinimin e RSA dhe DES per te realizuar komunikim te sigurt klient-server.
+
+Serveri gjeneron RSA Public Key dhe Private Key. Public Key i dergohet klientit permes TCP lidhjes. Klienti gjeneron nje DES secret key 64-bit dhe e enkripton ate duke perdorur RSA Public Key. DES key i enkriptuar dergohet te serveri, ku dekriptohet me RSA Private Key.
+
+Pas ketij procesi, klienti dhe serveri posedojne te njejtin DES key sekret. Ky celes perdoret per enkriptimin dhe dekriptimin e te gjitha mesazheve gjate komunikimit duke perdorur DES-CBC.
+
+RSA perdoret vetem per mbrojtjen dhe shkembimin e DES key, ndersa DES perdoret per enkriptimin e komunikimit sepse eshte me i shpejte per transferimin e te dhenave.
+
+---
+
+## Perdorimi i IV ne DES-CBC
+
+Ne DES-CBC perdoret nje Initialization Vector (IV) prej 8 byte per cdo mesazh te enkriptuar.
+
+IV gjenerohet ne menyre random para enkriptimit te mesazhit dhe bashkengjitet me ciphertext para dergimit. Gjate dekriptimit, serveri ose klienti e ndan IV nga ciphertext dhe e perdor per te rikrijuar plaintext-in origjinal.
+
+Perdorimi i IV siguron qe edhe nese dergohet i njejti plaintext disa here, ciphertext-i do te jete i ndryshem cdo here, duke rritur sigurine e komunikimit dhe duke parandaluar zbulimin e modeleve ne te dhena.
+
